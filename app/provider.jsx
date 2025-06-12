@@ -5,10 +5,12 @@ import React, { Children, useEffect, useState } from "react";
 import { useUser } from "@clerk/nextjs";
 import axios from "axios";
 import { UserDetailContext } from "@/context/UserDetailContext";
+import { SelectedChapterIndexContext } from "@/context/SelectedChapterIndexContext";
 
 const Provider = ({ children }) => {
   const { user } = useUser();
   const [userDetails, setUserDetails] = useState();
+  const [selectedChapterIndex, setSelectedChapterIndex] = useState(0);
   useEffect(() => {
     user && createNewUser();
   }, [user]);
@@ -19,12 +21,15 @@ const Provider = ({ children }) => {
       name: user?.fullName,
     });
     setUserDetails(result.data);
-    console.log(result.data);
   };
 
   return (
     <UserDetailContext.Provider value={{ userDetails, setUserDetails }}>
-      <div>{children}</div>
+      <SelectedChapterIndexContext.Provider
+        value={{ selectedChapterIndex, setSelectedChapterIndex }}
+      >
+        <div>{children}</div>
+      </SelectedChapterIndexContext.Provider>
     </UserDetailContext.Provider>
   );
 };

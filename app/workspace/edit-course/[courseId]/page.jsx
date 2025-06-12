@@ -6,7 +6,7 @@ import React, { useEffect, useState } from "react";
 import CourseInfo from "../_components/CourseInfo";
 import ChapterTopicList from "../_components/ChapterTopicList";
 
-const EditCourse = () => {
+const EditCourse = ({ viewCourse = false }) => {
   const { courseId } = useParams();
   const [loading, setLoading] = useState(false);
   const [courses, setCourses] = useState(null);
@@ -33,7 +33,7 @@ const EditCourse = () => {
 
   return (
     <div>
-      <CourseInfo courses={courses} />
+      <CourseInfo courses={courses} viewCourse={viewCourse} />
       <ChapterTopicList courses={courses} />
     </div>
   );

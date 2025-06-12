@@ -34,7 +34,7 @@ const EnrollCourseList = () => {
             <EnrollCourseCard
               key={index}
               course={course.courses}
-              enrolledCourse={course.enrolledCourse}
+              enrolledCourse={course.enrollCourse}
               index={index}
             />
           ))}

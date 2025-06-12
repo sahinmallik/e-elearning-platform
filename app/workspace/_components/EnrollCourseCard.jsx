@@ -10,12 +10,13 @@ const EnrollCourseCard = ({ course, index, enrolledCourse }) => {
   const courseJson = course?.courseJson?.course;
 
   const calculatePerProgress = () => {
-    return (
-      (enrolledCourse?.completedChapters?.length ??
-        0 / course?.courseContent?.length) * 100
+    return Math.round(
+      ((enrolledCourse?.completedChapters?.length ?? 0) /
+        (course?.courseContent?.length ?? 1)) *
+        100
     );
   };
-
+  console.log();
   return (
     <div className="shadow-md rounded-xl w-full">
       <Image
@@ -36,7 +37,7 @@ const EnrollCourseCard = ({ course, index, enrolledCourse }) => {
             Progress <span>{calculatePerProgress()}%</span>
           </h2>
           <Progress value={calculatePerProgress()} />
-          <Link href={`/workspace/course/${course?.cid}`}>
+          <Link href={`/workspace/view-course/${course?.cid}`}>
             <Button className="w-full mt-3">
               <PlayCircle /> Continue Learning
             </Button>

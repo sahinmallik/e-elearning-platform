@@ -1,11 +1,12 @@
 import { db } from "@/config/db";
 import { coursesTable } from "@/config/schema";
-import { currentUser } from "@clerk/nextjs/server";
+import { auth, currentUser } from "@clerk/nextjs/server";
 import { GoogleGenAI } from "@google/genai";
 import { Modality } from "@google/genai";
 import axios from "axios";
 import OpenAI from "openai";
-
+const { has } = await auth();
+const hasStarterAccess = has({ plan: "starter" });
 import { NextResponse } from "next/server";
 import { json } from "drizzle-orm/gel-core";
 const PROMT = `Genrate Learning Course depends on following details. In which Make sure to add Course Name, Description,Course Banner Image Prompt (Create a modern, flat-style 2D digital illustration representing user Topic. Include Ul/UX elements such as mockup screens, text blocks, icons, buttons, and creative workspace tools. Add symbolic elements related to user Course, like sticky notes, design components, and visual aids. Use a vibrant color palette (blues, purples, oranges) with a clean, professional look. The illustration should feel creative, tech-savvy, and educational, ideal for visualizing concepts in user Course) for Course Banner in 3d format Chapter Name,, Topic under each chapters, Duration for each chapters etc, in JSON format only 
@@ -55,6 +56,21 @@ export async function POST(req) {
       ],
     },
   ];
+
+  if (!hasStarterAccess) {
+    const result = await db
+      .select()
+      .from(coursesTable)
+      .where(
+        coursesTable.userEmail.eq(user?.primaryEmailAddress?.emailAddress)
+      );
+    if (result.length >= 1) {
+      return NextResponse.json(
+        { error: "You have reached the maximum number of courses allowed." },
+        { status: 403 }
+      );
+    }
+  }
 
   const response = await ai.models.generateContent({
     model,
