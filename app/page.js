@@ -12,7 +12,8 @@ import {
   X,
   Check,
 } from "lucide-react";
-import { PricingTable } from "@clerk/nextjs";
+import { PricingTable, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
+import Link from "next/link";
 
 export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -128,10 +129,13 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-4">
             <div className="flex items-center space-x-2">
-              <div className="w-10 h-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
-                <BookOpen className="w-6 h-6 text-white" />
-              </div>
-              <span className="text-xl font-bold text-gray-900">LearnHub</span>
+              <Image
+                src="/logo.svg"
+                alt="Logo"
+                width={140}
+                height={140}
+                className=""
+              />
             </div>
 
             {/* Desktop Menu */}
@@ -160,9 +164,16 @@ export default function Home() {
               >
                 About
               </a>
-              <button className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors">
-                Get Started
-              </button>
+              <SignedOut>
+                <Link href="/workspace">
+                  <button className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                    Get Started
+                  </button>
+                </Link>
+              </SignedOut>
+              <SignedIn>
+                <UserButton />
+              </SignedIn>
             </div>
 
             {/* Mobile Menu Button */}
@@ -195,9 +206,16 @@ export default function Home() {
               <a href="#about" className="block py-2 text-gray-700">
                 About
               </a>
-              <button className="w-full bg-blue-600 text-white py-2 rounded-lg mt-2">
-                Get Started
-              </button>
+              <SignedOut>
+                <Link href="/workspace">
+                  <button className="w-full bg-blue-600 text-white py-2 rounded-lg mt-2">
+                    Get Started
+                  </button>
+                </Link>
+              </SignedOut>
+              <SignedIn>
+                <UserButton showName />
+              </SignedIn>
             </div>
           </div>
         )}
@@ -223,14 +241,18 @@ export default function Home() {
               </div>
 
               <div className="flex flex-col sm:flex-row gap-4">
-                <button className="bg-blue-600 text-white px-8 py-4 rounded-xl font-semibold hover:bg-blue-700 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
-                  Start Learning Today
-                  <ChevronRight className="inline w-5 h-5 ml-2" />
-                </button>
-                <button className="border border-gray-300 text-gray-700 px-8 py-4 rounded-xl font-semibold hover:bg-gray-50 transition-all duration-300 flex items-center justify-center gap-3">
-                  <Play className="w-5 h-5" />
-                  Watch Demo
-                </button>
+                <Link href="/workspace">
+                  <button className="bg-blue-600 text-white px-8 py-4 rounded-xl font-semibold hover:bg-blue-700 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
+                    Start Learning Today
+                    <ChevronRight className="inline w-5 h-5 ml-2" />
+                  </button>
+                </Link>
+                <Link href="https://drive.google.com/file/d/1PQGNw47V3aWG5wG1GlSwo0kfcrjCzwTF/view?usp=sharing">
+                  <button className="border border-gray-300 text-gray-700 px-8 py-4 rounded-xl font-semibold hover:bg-gray-50 transition-all duration-300 flex items-center justify-center gap-3">
+                    <Play className="w-5 h-5" />
+                    Watch Demo
+                  </button>
+                </Link>
               </div>
 
               <div className="flex items-center gap-8 pt-4">
@@ -409,9 +431,11 @@ export default function Home() {
             Join thousands of learners who have already started their journey
             with us
           </p>
-          <button className="bg-white text-blue-600 px-8 py-4 rounded-xl font-semibold hover:bg-gray-100 transition-colors shadow-lg">
-            Start Your Free Trial
-          </button>
+          <Link href="/workspace">
+            <button className="bg-white text-blue-600 px-8 py-4 rounded-xl font-semibold hover:bg-gray-100 transition-colors shadow-lg">
+              Start Your Free Trial
+            </button>
+          </Link>
         </div>
       </section>
 
@@ -421,10 +445,13 @@ export default function Home() {
           <div className="grid md:grid-cols-4 gap-8">
             <div>
               <div className="flex items-center space-x-2 mb-4">
-                <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
-                  <BookOpen className="w-5 h-5 text-white" />
-                </div>
-                <span className="text-xl font-bold">LearnHub</span>
+                <Image
+                  src="/logo_footer.svg"
+                  alt="Logo"
+                  width={140}
+                  height={140}
+                  className="h-10"
+                />
               </div>
               <p className="text-gray-400">
                 Empowering learners worldwide with quality education and

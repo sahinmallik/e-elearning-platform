@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { ai } from "../generate-course-layout/route";
+import { ai } from "@/lib/gemini";
 import axios from "axios";
 import { db } from "@/config/db";
 import { coursesTable } from "@/config/schema";
@@ -41,8 +41,18 @@ export async function POST(req) {
     });
 
     const RawResp = response?.candidates[0]?.content?.parts[0]?.text;
-    const RawJson = RawResp?.replace("```json", "")?.replace("```", "");
-    const JSONresp = JSON.parse(RawJson);
+
+    const RawJson = RawResp?.replace(/```json/, "")
+      ?.replace(/```/, "")
+      ?.trim();
+
+    let JSONresp;
+    try {
+      JSONresp = JSON.parse(RawJson);
+    } catch (err) {
+      console.error("Error:", err.message);
+    }
+
     console.log("Response:", chapter?.chapterName);
     const youtubeData = await GetYoutubeVideo(chapter?.chapterName);
     console.log("Youtube Data: ", {
