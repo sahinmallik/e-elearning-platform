@@ -35,6 +35,8 @@ export default function RootLayout({ children }) {
         >
           <Provider>{children}</Provider>
           <Toaster />
+          <SpeedInsights />
+          <Analytics />
         </body>
       </html>
     </ClerkProvider>
