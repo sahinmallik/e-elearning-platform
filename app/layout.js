@@ -10,6 +10,7 @@ import {
 } from "@clerk/nextjs";
 import Provider from "./provider";
 import { Toaster } from "sonner";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
